@@ -1,7 +1,12 @@
 const ronin = require( 'ronin-server' )
 const mocks = require( 'ronin-mocks' )
-
+const database = require( 'ronin-database' )
 const server = ronin.server()
 
-server.use( '/', mocks.server( server.Router(), false, true ) )
+database.connect( process.env.CONNECTIONSTRING )
+server.use( '/foo', (req, res) => {
+    return res.json({ "foo": "bar" })
+})
+console.log("foo")
+server.use( '/', mocks.server( server.Router(), false, false ) )
 server.start()
